@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nantimes.vicloth.mapping.PoseMapper">
+	<resultMap  id="BaseResultMap" type="com.nantimes.vicloth.pojo.Pose">
+		 <id column="Id" property="id" jdbcType="INTEGER" />
+		 <result column="RoleId" property="roleId" jdbcType="VARCHAR" />
+		 <result column="Motion" property="motion" jdbcType="VARCHAR" />
+	
+	</resultMap>
+	
+	<sql id="Base_Column_List" >
+    	Id, RoleId, Motion
+  	</sql>
+  	
+  	  <insert id="insertOrUpdate" >
+      	  	insert into pose
+  			(Id,
+  			 RoleId,
+  			 Motion)
+  			values
+    	<foreach collection="pose"  item="item" index="index" separator=",">
+
+               (#{item.id,jdbcType=INTEGER},
+                #{item.roleId,jdbcType=VARCHAR},
+                #{item.motion,jdbcType=VARCHAR})
+        </foreach>
+        ON DUPLICATE KEY UPDATE 
+        RoleId = VALUES(RoleId),
+        Motion = VALUES(Motion)
+        
+  </insert >
+  	
+  	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    	select 
+    	<include refid="Base_Column_List" />
+    	from pose
+    	where Id = #{id,jdbcType=INTEGER}
+  	</select>
+  	
+  	<select id="findByRole" resultMap="BaseResultMap" parameterType="java.lang.String" >
+     	select 
+     	<include refid="Base_Column_List" />
+    	from pose
+    	where  RoleId = #{roleId,jdbcType=VARCHAR}
+  	</select>
+  	
+  	
+  
+
+</mapper>

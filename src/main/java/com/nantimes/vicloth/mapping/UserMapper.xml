@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nantimes.vicloth.mapping.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.nantimes.vicloth.pojo.User" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="Account" property="account" jdbcType="VARCHAR" />
+    <result column="Password" property="password" jdbcType="VARCHAR" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="Phone" property="phone" jdbcType="VARCHAR" />
+    <result column="Email" property="email" jdbcType="VARCHAR" />
+    <result column="CreateTime" property="createtime" jdbcType="VARCHAR" />
+    <!--  
+    <association property="body" javaType="com.nantimes.vicloth.pojo.Body">   
+   		<id column="Id" property="id" jdbcType="INTEGER" />
+    	<result column="Height" property="height" jdbcType="VARCHAR" />
+    	<result column="Weight" property="weight" jdbcType="VARCHAR" />
+    	<result column="ArmLength" property="armLength" jdbcType="VARCHAR" />
+    	<result column="LegLength" property="legLength" jdbcType="VARCHAR" />
+    	<result column="Waist" property="waist" jdbcType="VARCHAR" />
+    	<result column="Bust" property="bust" jdbcType="VARCHAR" />
+    	<result column="EyeMidColor" property="eyeMidColor" jdbcType="VARCHAR" />
+    	<result column="Face" property="face" jdbcType="VARCHAR" />
+    	<result column="HairId" property="hairId" jdbcType="VARCHAR" />
+    </association>
+    -->                              
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, Account, Password, Name, Phone,Email, CreateTime
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  
+   <select id="FindSingle" resultMap="BaseResultMap" parameterType="java.lang.String" >
+     select 
+     <include refid="Base_Column_List" />
+    from user
+    where  Account = #{account,jdbcType=VARCHAR}
+  </select>
+  
+
+
+   
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.nantimes.vicloth.pojo.User" >
+    <selectKey keyProperty="id" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID() AS ID 
+    </selectKey>
+    insert into user (Id, Account, Password, 
+    Name,Phone,Email, CreateTime)
+    values (#{id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+    #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+    #{email,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR})
+    
+  </insert>
+  <insert id="insertSelective" parameterType="com.nantimes.vicloth.pojo.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="account != null" >
+        Account,
+      </if>
+      <if test="password != null" >
+        Password,
+      </if>
+      <if test="name != null" >
+        Name,
+      </if>
+      <if test="phone != null" >
+        Phone,
+      </if>
+      <if test="email != null" >
+        Email,
+      </if>
+      
+
+      <if test="createtime != null" >
+        CreateTime,
+      </if>
+  
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>      
+      <if test="createtime != null" >
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nantimes.vicloth.pojo.User" >
+    update user
+    <set >
+      <if test="account != null" >
+        Account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        Password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        Phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        Email = #{email,jdbcType=VARCHAR},
+      </if>
+ 
+      <if test="createtime != null" >
+        CreateTime = #{createtime,jdbcType=VARCHAR},
+      </if>
+
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nantimes.vicloth.pojo.User" >
+    update user
+    set Account = #{account,jdbcType=VARCHAR},
+      Password = #{password,jdbcType=VARCHAR},
+      Name = #{name,jdbcType=VARCHAR},
+      Phone = #{phone,jdbcType=VARCHAR},
+      Email = #{email,jdbcType=VARCHAR},
+      CreateTime = #{createtime,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nantimes.vicloth.mapping.ViclothMapper">
+	<resultMap  id="BaseResultMap" type="com.nantimes.vicloth.pojo.Vicloth">
+		 <id column="Id" property="id" jdbcType="INTEGER" />
+		 <result column="Subject" property="subject" jdbcType="VARCHAR" />
+		 <result column="Url" property="url" jdbcType="VARCHAR" />
+		 <result column="Role" property="role" jdbcType="VARCHAR" />
+		 <result column="RoleId" property="roleId" jdbcType="VARCHAR" />
+		 <result column="ThemeName" property="themeName" jdbcType="VARCHAR" />
+		 <result column="Priority" property="priority" jdbcType="INTEGER" />
+		 <result column="Color" property="color" jdbcType="VARCHAR" />
+		 <result column="Gender" property="gender" jdbcType="VARCHAR" />
+		 <result column="Assort" property="assort" jdbcType="INTEGER" />
+		 <result column="Enable" property="enable" jdbcType="VARCHAR" />
+		 <result column="Hat" property="hat" jdbcType="VARCHAR" />
+		  
+	
+	</resultMap>
+	
+	<sql id="Base_Column_List" >
+    	Id, Subject, Url,Role,RoleId,ThemeName,Priority,Color,Gender,Assort,Enable,Hat
+  	</sql>
+  	<insert id="insertOrUpdate" >
+      	  	insert into vicloth
+  			(Id, Subject, Url,Role,RoleId,ThemeName,Priority,Color,Gender,Assort,Enable,Hat)
+  			values
+    	<foreach collection="vicloth"  item="item" index="index" separator=",">
+
+               (#{item.id,jdbcType=INTEGER},
+                #{item.subject,jdbcType=VARCHAR},
+                #{item.url,jdbcType=VARCHAR},
+                #{item.role,jdbcType=VARCHAR},
+                #{item.roleId,jdbcType=VARCHAR},
+                #{item.themeName,jdbcType=VARCHAR},
+                #{item.priority,jdbcType=INTEGER},
+                #{item.color,jdbcType=VARCHAR},
+                #{item.gender,jdbcType=VARCHAR},
+                #{item.assort,jdbcType=INTEGER},
+                #{item.enable,jdbcType=VARCHAR},
+                #{item.hat,jdbcType=VARCHAR})
+        </foreach>
+        ON DUPLICATE KEY UPDATE 
+        Subject = VALUES(Subject),
+        Url = VALUES(Url),
+        Role = VALUES(Role),
+        RoleId = VALUES(RoleId),
+        ThemeName = VALUES(ThemeName),
+        Priority = VALUES(Priority),
+        Color = VALUES(Color),
+        Gender = VALUES(Gender),
+        Assort = VALUES(Assort),
+        Enable = VALUES(Enable),
+        Hat = VALUES(Hat)
+        
+  	</insert >
+  
+   	<select id="findBySubject" resultMap="BaseResultMap" parameterType="java.lang.String" >
+     	select 
+     	<include refid="Base_Column_List" />
+    	from vicloth
+    	where  Subject = #{subject,jdbcType=VARCHAR}
+    	and Priority='0'
+    	order by Id desc
+  	</select>
+</mapper>  	
